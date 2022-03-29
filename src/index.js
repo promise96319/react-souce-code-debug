@@ -8,23 +8,16 @@ if (process.env.NODE_ENV !== 'production' && typeof window !== 'undefined') {
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 
-import FunctionComponentA from './FuncA'
+const App = () => {
+  const [count, setCount] = React.useState(0)
+  return (
+    <div className="app">
+      <div className="app-counter" onClick={() => setCount(count + 1)}>
+        {count}
+      </div>
+    </div>
+  )
+}
 
 const root = document.getElementById('app')
-ReactDOM.createRoot(root).render(<FunctionComponentA></FunctionComponentA>)
-
-// import FunctionComponentB from './FuncB'
-// import ClassComponentA from './ClassA'
-// import ClassComponentB from './ClassB'
-
-// const App = () => {
-//   return (
-//     <div id="app">
-//       111223
-//       <FunctionComponentA></FunctionComponentA>
-//       <FunctionComponentB></FunctionComponentB>
-//       <ClassComponentA></ClassComponentA>
-//       <ClassComponentB></ClassComponentB>
-//     </div>
-//   )
-// }
+ReactDOM.createRoot(root).render(<App></App>)

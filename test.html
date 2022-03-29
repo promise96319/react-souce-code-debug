@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button id="btn" onclick="handle()">点击事件</button>
+
+    <script>
+      function handle() {
+        console.log('click 事件触发 ')
+      }
+
+      // 耗时任务
+      function render() {
+        for (let i = 0; i < 10 ** 4; i++) {
+          console.log(i)
+        }
+      }
+      window.onload = function () {
+        render()
+      }
+
+      const tasks = [task1, task2, task3, task40]
+      const next = (idx) => {
+        setTimeout(async () => {
+          await tasks[idx]
+          next(idx + 1)
+        }, 0)
+      }
+      next(0)
+    </script>
+  </body>
+</html>

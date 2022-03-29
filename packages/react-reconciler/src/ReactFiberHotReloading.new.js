@@ -247,6 +247,7 @@ export const scheduleRefresh: ScheduleRefresh = (
   }
 };
 
+// 直接重载了
 export const scheduleRoot: ScheduleRoot = (
   root: FiberRoot,
   element: ReactNodeList,

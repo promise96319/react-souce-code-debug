@@ -1,0 +1,28 @@
+{
+  "favorites.resources": [
+    {
+      "filePath": "packages/react-reconciler/src/ReactFiberHotReloading.new.js",
+      "group": "Default"
+    },
+    {
+      "filePath": "packages/react-reconciler/src/ReactFiberDevToolsHook.new.js",
+      "group": "Default"
+    },
+    {
+      "filePath": "packages/react-devtools-shared/src/hook.js",
+      "group": "Default"
+    },
+    {
+      "filePath": "packages/react-dom/src/client/ReactDOM.js",
+      "group": "Default"
+    },
+    {
+      "filePath": "packages/react-reconciler/src/ReactFiberReconciler.new.js",
+      "group": "Default"
+    },
+    {
+      "filePath": "packages/react-refresh/src/ReactFreshRuntime.js",
+      "group": "Default"
+    }
+  ]
+}

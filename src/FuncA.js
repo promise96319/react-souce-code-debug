@@ -12,11 +12,15 @@ window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform
 
 try {
   const React = require('react')
-  console.log('FunctionComponentA111')
 
-  const FunctionComponentA = () => (
-    <div className="function-component-a">FunctionComponentA</div>
-  )
+  const FunctionComponentA = () => {
+    const [count, setCount] = React.useState(0)
+    return (
+      <div className="function-component-a" onClick={() => setCount(count + 1)}>
+        {count}22
+      </div>
+    )
+  }
   module.exports = FunctionComponentA
 
   window.$RefreshReg$(FunctionComponentA, 'FunctionComponentA')

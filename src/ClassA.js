@@ -1,6 +1,7 @@
 let prevRefreshReg = window.$RefreshReg$
 let prevRefreshSig = window.$RefreshSig$
 let RefreshRuntime = require('react-refresh/runtime')
+let enqueueUpdate = require('./utils/update')
 
 window.$RefreshReg$ = (type, id) => {
   // Note module.id is webpack-specific, this may vary in other bundlers
@@ -9,14 +10,35 @@ window.$RefreshReg$ = (type, id) => {
 }
 window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform
 
-import React from 'react'
+try {
+  const React = require('react')
 
-console.log('ClassComponentA')
+  class ClassComponentA extends React.Component {
+    constructor(props) {
+      super(props)
 
-class ClassComponentA extends React.Component {
-  render() {
-    return <div className="class-component-a">ClassComponentA</div>
+      this.state = {
+        count: 0,
+      }
+    }
+    render() {
+      const { count } = this.state
+      return (
+        <div
+          className="class-component-a"
+          onClick={() => this.setState({ count: count + 1 })}
+        >
+          {this.state.count}323
+        </div>
+      )
+    }
   }
-}
+  module.exports = ClassComponentA
 
-export default ClassComponentA
+  window.$RefreshReg$(ClassComponentA, 'ClassComponentA')
+  module.hot.accept()
+  enqueueUpdate()
+} finally {
+  window.$RefreshReg$ = prevRefreshReg
+  window.$RefreshSig$ = prevRefreshSig
+}

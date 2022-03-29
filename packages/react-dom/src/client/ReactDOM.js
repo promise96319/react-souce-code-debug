@@ -7,8 +7,8 @@
  * @flow
  */
 
-import type { ReactNodeList } from 'shared/ReactTypes';
-import type { Container } from './ReactDOMHostConfig';
+import type { ReactNodeList } from 'shared/ReactTypes'
+import type { Container } from './ReactDOMHostConfig'
 
 import {
   findDOMNode,
@@ -16,9 +16,9 @@ import {
   hydrate,
   unstable_renderSubtreeIntoContainer,
   unmountComponentAtNode,
-} from './ReactDOMLegacy';
-import { createRoot, hydrateRoot, isValidContainer } from './ReactDOMRoot';
-import { createEventHandle } from './ReactDOMEventHandle';
+} from './ReactDOMLegacy'
+import { createRoot, hydrateRoot, isValidContainer } from './ReactDOMRoot'
+import { createEventHandle } from './ReactDOMEventHandle'
 
 import {
   batchedUpdates,
@@ -31,27 +31,27 @@ import {
   attemptDiscreteHydration,
   attemptContinuousHydration,
   attemptHydrationAtCurrentPriority,
-} from 'react-reconciler/src/ReactFiberReconciler';
+} from 'react-reconciler/src/ReactFiberReconciler'
 import {
   runWithPriority,
   getCurrentUpdatePriority,
-} from 'react-reconciler/src/ReactEventPriorities';
-import { createPortal as createPortalImpl } from 'react-reconciler/src/ReactPortal';
-import { canUseDOM } from 'shared/ExecutionEnvironment';
-import ReactVersion from 'shared/ReactVersion';
-import invariant from 'shared/invariant';
+} from 'react-reconciler/src/ReactEventPriorities'
+import { createPortal as createPortalImpl } from 'react-reconciler/src/ReactPortal'
+import { canUseDOM } from 'shared/ExecutionEnvironment'
+import ReactVersion from 'shared/ReactVersion'
+import invariant from 'shared/invariant'
 import {
   warnUnstableRenderSubtreeIntoContainer,
   enableNewReconciler,
-} from 'shared/ReactFeatureFlags';
+} from 'shared/ReactFeatureFlags'
 
 import {
   getInstanceFromNode,
   getNodeFromInstance,
   getFiberCurrentPropsFromNode,
   getClosestInstanceFromNode,
-} from './ReactDOMComponentTree';
-import { restoreControlledState } from './ReactDOMComponent';
+} from './ReactDOMComponentTree'
+import { restoreControlledState } from './ReactDOMComponent'
 import {
   setAttemptSynchronousHydration,
   setAttemptDiscreteHydration,
@@ -60,22 +60,22 @@ import {
   queueExplicitHydrationTarget,
   setGetCurrentUpdatePriority,
   setAttemptHydrationAtPriority,
-} from '../events/ReactDOMEventReplaying';
-import { setBatchingImplementation } from '../events/ReactDOMUpdateBatching';
+} from '../events/ReactDOMEventReplaying'
+import { setBatchingImplementation } from '../events/ReactDOMUpdateBatching'
 import {
   setRestoreImplementation,
   enqueueStateRestore,
   restoreStateIfNeeded,
-} from '../events/ReactDOMControlledComponent';
+} from '../events/ReactDOMControlledComponent'
 
-setAttemptSynchronousHydration(attemptSynchronousHydration);
-setAttemptDiscreteHydration(attemptDiscreteHydration);
-setAttemptContinuousHydration(attemptContinuousHydration);
-setAttemptHydrationAtCurrentPriority(attemptHydrationAtCurrentPriority);
-setGetCurrentUpdatePriority(getCurrentUpdatePriority);
-setAttemptHydrationAtPriority(runWithPriority);
+setAttemptSynchronousHydration(attemptSynchronousHydration)
+setAttemptDiscreteHydration(attemptDiscreteHydration)
+setAttemptContinuousHydration(attemptContinuousHydration)
+setAttemptHydrationAtCurrentPriority(attemptHydrationAtCurrentPriority)
+setGetCurrentUpdatePriority(getCurrentUpdatePriority)
+setAttemptHydrationAtPriority(runWithPriority)
 
-let didWarnAboutUnstableRenderSubtreeIntoContainer = false;
+let didWarnAboutUnstableRenderSubtreeIntoContainer = false
 
 if (__DEV__) {
   if (
@@ -91,35 +91,35 @@ if (__DEV__) {
   ) {
     console.error(
       'React depends on Map and Set built-in types. Make sure that you load a ' +
-      'polyfill in older browsers. https://reactjs.org/link/react-polyfills',
-    );
+        'polyfill in older browsers. https://reactjs.org/link/react-polyfills'
+    )
   }
 }
 
-setRestoreImplementation(restoreControlledState);
+setRestoreImplementation(restoreControlledState)
 setBatchingImplementation(
   batchedUpdates,
   discreteUpdates,
-  flushSyncWithoutWarningIfAlreadyRendering,
-);
+  flushSyncWithoutWarningIfAlreadyRendering
+)
 
 function createPortal(
   children: ReactNodeList,
   container: Container,
-  key: ?string = null,
+  key: ?string = null
 ): React$Portal {
   invariant(
     isValidContainer(container),
-    'Target container is not a DOM element.',
-  );
+    'Target container is not a DOM element.'
+  )
   // TODO: pass ReactDOM portal implementation as third argument
   // $FlowFixMe The Flow type is opaque but there's no way to actually create it.
-  return createPortalImpl(children, container, null, key);
+  return createPortalImpl(children, container, null, key)
 }
 
 function scheduleHydration(target: Node) {
   if (target) {
-    queueExplicitHydrationTarget(target);
+    queueExplicitHydrationTarget(target)
   }
 }
 
@@ -127,27 +127,27 @@ function renderSubtreeIntoContainer(
   parentComponent: React$Component<any, any>,
   element: React$Element<any>,
   containerNode: Container,
-  callback: ?Function,
+  callback: ?Function
 ) {
   if (__DEV__) {
     if (
       warnUnstableRenderSubtreeIntoContainer &&
       !didWarnAboutUnstableRenderSubtreeIntoContainer
     ) {
-      didWarnAboutUnstableRenderSubtreeIntoContainer = true;
+      didWarnAboutUnstableRenderSubtreeIntoContainer = true
       console.warn(
         'ReactDOM.unstable_renderSubtreeIntoContainer() is deprecated ' +
-        'and will be removed in a future major release. Consider using ' +
-        'React Portals instead.',
-      );
+          'and will be removed in a future major release. Consider using ' +
+          'React Portals instead.'
+      )
     }
   }
   return unstable_renderSubtreeIntoContainer(
     parentComponent,
     element,
     containerNode,
-    callback,
-  );
+    callback
+  )
 }
 
 const Internals = {
@@ -161,7 +161,7 @@ const Internals = {
     restoreStateIfNeeded,
     batchedUpdates,
   ],
-};
+}
 
 export {
   createPortal,
@@ -186,14 +186,14 @@ export {
   // TODO: Remove this once callers migrate to alternatives.
   // This should only be used by React internals.
   runWithPriority as unstable_runWithPriority,
-};
+}
 
 const foundDevTools = injectIntoDevTools({
   findFiberByHostInstance: getClosestInstanceFromNode,
   bundleType: __DEV__ ? 1 : 0,
   version: ReactVersion,
   rendererPackageName: 'react-dom',
-});
+})
 
 if (__DEV__) {
   if (!foundDevTools && canUseDOM && window.top === window.self) {
@@ -203,23 +203,23 @@ if (__DEV__) {
         navigator.userAgent.indexOf('Edge') === -1) ||
       navigator.userAgent.indexOf('Firefox') > -1
     ) {
-      const protocol = window.location.protocol;
+      const protocol = window.location.protocol
       // Don't warn in exotic cases like chrome-extension://.
       if (/^(https?|file):$/.test(protocol)) {
         // eslint-disable-next-line react-internal/no-production-logging
         console.info(
           '%cDownload the React DevTools ' +
-          'for a better development experience: ' +
-          'https://reactjs.org/link/react-devtools' +
-          (protocol === 'file:'
-            ? '\nYou might need to use a local HTTP server (instead of file://): ' +
-            'https://reactjs.org/link/react-devtools-faq'
-            : ''),
-          'font-weight:bold',
-        );
+            'for a better development experience: ' +
+            'https://reactjs.org/link/react-devtools' +
+            (protocol === 'file:'
+              ? '\nYou might need to use a local HTTP server (instead of file://): ' +
+                'https://reactjs.org/link/react-devtools-faq'
+              : ''),
+          'font-weight:bold'
+        )
       }
     }
   }
 }
 
-export const unstable_isNewReconciler = enableNewReconciler;
+export const unstable_isNewReconciler = enableNewReconciler

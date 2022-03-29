@@ -26,7 +26,7 @@ module.exports = {
           loader: 'babel-loader',
           options: {
             presets: ['@babel/preset-env', '@babel/preset-react'],
-            plugins: [require('./packages/react-refresh/babel.js')],
+            // plugins: [require('./packages/react-refresh/babel.js')],
           },
         },
       },
@@ -68,5 +68,5 @@ module.exports = {
     port: 8080,
   },
   mode: 'development',
-  devtool: 'inline-cheap-module-source-map',
+  devtool: 'source-map',
 }
